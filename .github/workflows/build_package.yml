@@ -28,7 +28,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           # Optional - x64 or x86 architecture, defaults to x64
           architecture: 'x64'
-          cache: pipenv
+#           cache: pipenv
           
       - name: Install Pipenv
         run: |
@@ -38,4 +38,7 @@ jobs:
       - name: Install dependencies
         run: |
           pipenv install
+      - run: pipenv --where
+      - run: pipenv --venv
+      - run: pipenv run which python
           

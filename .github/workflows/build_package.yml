@@ -1,17 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 name: Compile sms.zip
 # Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-    paths: 
-      - ".version"
-  pull_request:
-    branches: [ master ]
-    paths: 
-      - ".version"
-  # Allows you to run this workflow manually from the Actions tab
+on:  
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -33,11 +23,12 @@ jobs:
       
       # setup python
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: dmitry-shibanov/setup-python@v-dmshib/prepare-cache-support
         with:
           python-version: ${{ matrix.python-version }}
           # Optional - x64 or x86 architecture, defaults to x64
           architecture: 'x64'
+          cache: pipenv
           
       - name: Install Pipenv
         run: |
@@ -48,51 +39,3 @@ jobs:
         run: |
           pipenv install
           
-      - name: Install Mesa
-        shell: cmd
-        run: |
-          mkdir tmp\mesa
-          cd tmp\mesa
-          curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/20.3.2/mesa3d-20.3.2-release-msvc.7z
-          7z.exe x mesa.7z
-          cd ..\..
-
-      - name: Install UPX
-        shell: cmd
-        run: |
-          mkdir tmp\upx
-          cd tmp\upx
-          curl.exe -L --output upx.zip --url https://github.com/upx/upx/releases/download/v3.96/upx-3.96-win64.zip
-          7z.exe x upx.zip
-          cd ..\..
-          
-      
-      - name: "[Optional] Install Dependency Walker"
-        shell: cmd
-        run: |
-          mkdir tmp\dep
-          cd tmp\upx
-          curl.exe -L --output depends.zip https://www.dependencywalker.com/depends22_x64.zip
-          7z.exe x depends.zip
-          cd ..\..
-          
-      # Build package
-      - name: Build with PyInstaller
-        shell: cmd
-        run: |
-          echo set up environment"
-          set PATH=%PATH%;%cd%\tmp\mesa\x64\
-          set PATH=%PATH%;%cd%\tmp\upx\upx-3.96-win64\
-          set PATH=%PATH%;%cd%\tmp\dep\
-          set KIVY_SDL2_DEPENDENCY_WALKER=%PATH%;%cd%\tmp\dep\depends.exe
-          path
-          set KIVY_GL_BACKEND=angle_sdl2
-          echo "Starting PyInstaller build"
-          pipenv run pyinstaller --noconfirm sms.spec
-
-      - name: Upload Build files
-        uses: actions/upload-artifact@v2
-        with: 
-          name: sms
-          path: dist\sms\*
-          if-no-files-found: error

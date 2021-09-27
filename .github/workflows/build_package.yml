@@ -29,15 +29,16 @@ jobs:
           # Optional - x64 or x86 architecture, defaults to x64
           architecture: 'x64'
 #           cache: pipenv
-          
+      - run: node -e "console.log(process.env['VIRTUAL_ENV'])"
       - name: Install Pipenv
         run: |
           echo "Installing Pipenv"
           python -m pip install --upgrade pip setuptools wheel pipenv
-          
+      - run: node -e "console.log(process.env['VIRTUAL_ENV'])"
       - name: Install dependencies
         run: |
           pipenv install
+      - run: node -e "console.log(process.env['VIRTUAL_ENV'])"
       - run: pipenv --where
       - run: pipenv --venv
       - run: pipenv run which python

@@ -15,6 +15,7 @@ jobs:
       # For example, pypy2 and pypy3
       matrix:
         python-version: [ 3.7 ]
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
         
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

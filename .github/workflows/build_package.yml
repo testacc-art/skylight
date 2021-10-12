@@ -31,6 +31,9 @@ jobs:
           # Optional - x64 or x86 architecture, defaults to x64
           architecture: 'x64'
           cache: pipenv
+          cache-dependency-path: |
+            Pipfile.lock
+            Pipfile
       - run: node -e "console.log(process.env['VIRTUAL_ENV'])"
       - name: Install Pipenv
         run: |

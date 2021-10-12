@@ -32,10 +32,10 @@ jobs:
           architecture: 'x64'
           cache: pipenv
       - run: node -e "console.log(process.env['VIRTUAL_ENV'])"
-#       - name: Install Pipenv
-#         run: |
-#           echo "Installing Pipenv"
-#           python -m pip install --upgrade pip setuptools wheel pipenv
+      - name: Install Pipenv
+        run: |
+          echo "Installing Pipenv"
+          python -m pip install --upgrade pip setuptools wheel pipenv
       - run: node -e "console.log(process.env['VIRTUAL_ENV'])"
       - name: Install dependencies
         run: |

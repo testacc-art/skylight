@@ -24,6 +24,9 @@ jobs:
       - uses: actions/checkout@v2
       
       # setup python
+      - run: pipx install pipenv
+      - run: pipenv --where
+      - run: pipenv --venv
       - name: Set up Python ${{ matrix.python-version }}
         uses: dmitry-shibanov/setup-python@v-dmshib/prepare-cache-support
         with:
